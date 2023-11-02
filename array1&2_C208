@@ -1,0 +1,19 @@
+sub $t1,$s1,$s2
+lw $t1,40($s0)
+
+add $t2,$s0,$s2
+lw $t2,980($s1)
+
+sub $t3,$s2,$s1
+lw $t3,0($s1)
+
+lw $t4,60($s2)
+sub $t5,$t4,$s2
+
+lw $t6,20($s1)
+lw $t7,12($s2)
+add $t8,$s1,$s2
+
+lw $t9,84($s0)
+sub $s7,$s1,$t9
+

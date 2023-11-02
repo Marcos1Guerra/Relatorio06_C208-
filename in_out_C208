@@ -1,0 +1,57 @@
+.data
+prompt:     .asciiz "Digite o valor de N: "
+resultado:  .asciiz "A diferença é: "
+
+.text
+.globl main
+
+main:
+    # Imprimir prompt para inserção do valor de N
+    li $v0, 4
+    la $a0, prompt
+    syscall
+    
+    # Receber o valor de N
+    li $v0, 5
+    syscall
+    move $t0, $v0  # $t0 = N (valor fornecido pelo usuário)
+
+    # Cálculo da soma dos N primeiros números naturais
+    li $t1, 0      # $t1 = soma
+    li $t2, 1      # $t2 = contador
+    
+soma_naturais_loop:
+    bge $t2, $t0, calculo_final  # Se contador >= N, sair do loop
+    add $t1, $t1, $t2  # soma = soma + contador
+    addi $t2, $t2, 1   # contador++
+    j soma_naturais_loop
+
+calculo_final:
+    mul $t1, $t1, $t1  # quadrado da soma
+
+    # Cálculo da soma dos quadrados dos N primeiros números naturais
+    li $t3, 0      # $t3 = soma dos quadrados
+    li $t4, 1      # $t4 = contador
+    
+soma_quadrados_loop:
+    bge $t4, $t0, calculo_diferenca  # Se contador >= N, sair do loop
+    mul $t5, $t4, $t4  # $t5 = contador * contador
+    add $t3, $t3, $t5  # soma dos quadrados = soma dos quadrados + contador*contador
+    addi $t4, $t4, 1   # contador++
+    j soma_quadrados_loop
+
+calculo_diferenca:
+    sub $t1, $t1, $t3  # diferença = quadrado da soma - soma dos quadrados
+
+    # Imprimir o resultado
+    li $v0, 4
+    la $a0, resultado
+    syscall
+
+    li $v0, 1
+    move $a0, $t1
+    syscall
+
+    # Sair do programa
+    li $v0, 10
+    syscall
